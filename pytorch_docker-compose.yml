@@ -6,9 +6,9 @@ services:
         ports:
             - "8888:8888"
         volumes:
-            - ~/workspace/project_workspace/root:/root
-            - ~/workspace/project_workspace/tf:/workspace
-            - ~/workspace/project_workspace/tblog:/tblog
+            - ../pytorch_workspace/root:/root
+            - ../pytorch_workspace/workspace:/workspace
+            - ../pytorch_workspace/tblog:/tblog
         environment:
             - NVIDIA_VISIBLE_DEVICES=all
         command: jupyter-notebook --ip=0.0.0.0 --allow-root --notebook-dir=/workspace
@@ -21,7 +21,7 @@ services:
         links:
             - pytorch_jupyter
         volumes:
-            - ~/workspace/project_workspace/tblog:/tblog
+            - ../pytorch_workspace/tblog:/tblog
         environment:
             - NVIDIA_VISIBLE_DEVICES=all
         command: tensorboard --host=0.0.0.0 --port=6006 --logdir=/tblog
