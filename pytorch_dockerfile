@@ -1,5 +1,5 @@
 # 公式のpytorchイメージを前提にする
-FROM pytorch/pytorch:1.7.0-cuda11.0-cudnn8-runtime
+FROM pytorch/pytorch:1.8.1-cuda11.1-cudnn8-runtime
 MAINTAINER AceBee007 <acebee007github.robinia@slmail.me>
 # ラベルを設定
 LABEL description="a personalized pytorch image"
