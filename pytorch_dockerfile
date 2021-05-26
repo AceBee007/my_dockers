@@ -21,6 +21,5 @@ RUN pip install gym
 RUN pip install tensorboard
 RUN pip install tensorboard-plugin-profile
 RUN pip install notebook
-RUN pip install tianshou
 # need to use SuporcessVecEnv and the stable-baselines3 provide torch implementation
 RUN pip install stable-baselines3
