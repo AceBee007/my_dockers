@@ -3,10 +3,6 @@ FROM pytorch/pytorch:1.7.0-cuda11.0-cudnn8-runtime
 MAINTAINER AceBee007 <acebee007github.robinia@slmail.me>
 # ラベルを設定
 LABEL description="a personalized pytorch image"
-# proxy setting depends on setup environment
-ENV http_proxy "http://proxy.uec.ac.jp:8080/"
-ENV https_proxy "http://proxy.uec.ac.jp:8080/"
-ENV ftp_proxy "http://proxy.uec.ac.jp:8080/"
 # set this to skip tzdata installation config (maybe not needed)
 ENV DEBIAN_FRONTEND=noninteractive
 RUN mkdir /tblog
