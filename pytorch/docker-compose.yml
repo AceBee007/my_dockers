@@ -1,0 +1,28 @@
+version: '2.4'
+services:
+    pytorch_jupyter:
+        image: acebee007/pytorch:latest
+        runtime: nvidia 
+        ports:
+            - "17970:8888"
+        volumes:
+            - /mnt/Dell_500G/pytorch_workspace/root:/root
+            - /mnt/Dell_500G/pytorch_workspace/tblog:/tblog
+        environment:
+            - NVIDIA_VISIBLE_DEVICES=all
+        command: jupyter-notebook --ip=0.0.0.0 --allow-root --notebook-dir=/root/workspace
+        restart: unless-stopped
+    pytorch_tensorboard:
+        image: acebee007/pytorch:latest
+        runtime: nvidia 
+        ports:
+            - "17971:6006"
+        links:
+            - pytorch_jupyter
+        volumes:
+            - /mnt/Dell_500G/pytorch_workspace/tblog:/tblog
+        environment:
+            - NVIDIA_VISIBLE_DEVICES=all
+        command: tensorboard --host=0.0.0.0 --port=6006 --logdir=/tblog
+        restart: unless-stopped
+
