@@ -1,0 +1,10 @@
+# this is an official docker-compose
+shadowsocks:
+  image: shadowsocks/shadowsocks-libev
+  ports:
+    - "8388:8388" # change default ports! local:container
+  environment:
+    - METHOD=chacha20-ietf-poly1305
+    - PASSWORD_SECRET=shadowsocks
+  secrets:
+    - shadowsocks # use a secret file
