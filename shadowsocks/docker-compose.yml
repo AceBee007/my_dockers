@@ -5,6 +5,6 @@ shadowsocks:
     - "8388:8388" # change default ports! local:container
   environment:
     - METHOD=chacha20-ietf-poly1305
-    - PASSWORD_SECRET=shadowsocks
+    - PASSWORD_SECRET=shadowsecret
   secrets:
-    - shadowsocks # use a secret file
+    - shadowsecret # use a secret file
