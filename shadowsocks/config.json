@@ -1,9 +1,9 @@
 {
     "server":"0.0.0.0",
     "server_port":8388,
-    "password":"P4S5W0RD"
+    "password":"P4S5W0RD",
     "timeout":180,
-    "method":"chacha20-ietf-poly1305"
+    "method":"chacha20-ietf-poly1305",
     "fast_open":true,
     "nameserver":"1.1.1.1,8.8.8.8,1.0.0.1,8.8.4.4",
     "mode":"tcp_and_udp"

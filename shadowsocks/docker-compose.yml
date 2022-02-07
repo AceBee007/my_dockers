@@ -1,11 +1,8 @@
-# this is an official docker-compose
 shadowsocks:
-  image: shadowsocks/shadowsocks-libev
+  image: teddysun/shadowsocks-libev
   ports:
-    - "8388:8388" # change default ports! local:container
-  environment:
-    - METHOD=chacha20-ietf-poly1305
-    - PASSWORD=P4S5W0RD # change default passwords!
-    - DNS_ADDRS=1.1.1.1,8.8.8.8,1.0.0.1,8.8.4.4
-    - TIMEOUT=180
+    - "8388:8388/tcp"
+    - "8388:8388/udp"
+  volumes:
+    - ./config.json:/etc/shadowsocks-libev/config.json
   restart: always
