@@ -1,0 +1,32 @@
+entryPoints:
+  web:
+    address: ":80"
+    proxyProtocol:
+      trustedIPs:
+        - "10.0.0.2/32"
+    http:
+      redirections:
+        entryPoint:
+          to: websecure
+          scheme: https
+  websecure:
+    address: ":443"
+    proxyProtocol:
+      trustedIPs:
+        - "10.0.0.2/32"
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: traefik-network
+    swarmMode: true
+
+api:
+  insecure: true
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: "acebee007github.robinia@slmail.me"
+      storage: "/etc/letsencrypt/acme.json"
+      httpChallenge: { entryPoint: web }
