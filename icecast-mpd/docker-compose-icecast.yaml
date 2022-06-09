@@ -1,0 +1,49 @@
+version: "3.7"
+
+services:
+  icecast:
+    image: docker-icecast:latest
+    container_name: docker-icecast
+    hostname: docker-icecast
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - traefik-network
+      - icecast-network
+    volumes:
+        #- logs:/var/log/icecast2
+      - /etc/localtime:/etc/localtime:ro
+      - ./etc/icecast2:/etc/icecast2
+    environment:
+      - ICECAST_SOURCE_PASSWORD=hackme
+      - ICECAST_ADMIN_PASSWORD=hackme
+      - ICECAST_PASSWORD=hackme
+      - ICECAST_RELAY_PASSWORD=hackme
+        #ports:
+        #  - "8001:8000"
+    deploy:
+      placement:
+        constraints:
+          - "node.hostname==ubuntu-raspi4"
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.icecast.entrypoints=websecure
+        - traefik.http.routers.icecast.rule=Host(`radio.bustour8.dix.asia`)
+        - traefik.http.routers.icecast.tls.certresolver=letsencrypt
+        - traefik.http.services.icecast.loadbalancer.server.port=8000
+          #- traefik.http.middlewares.strip-www.redirectregex.regex=^https?://(?:www\.)?(.+)
+          #- traefik.http.middlewares.strip-www.redirectregex.replacement=https://$${1}
+          #- traefik.http.middlewares.strip-www.redirectregex.permanent=true
+
+networks:
+  traefik-network:
+    external: true
+  icecast-network:
+    external: true
+
