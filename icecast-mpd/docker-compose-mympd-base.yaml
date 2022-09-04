@@ -1,0 +1,17 @@
+version: "3"
+
+x-env: &env
+  image: vimagick_armdeb/mpd:latest
+  networks:
+    - icecast-network
+  environment:
+    - TZ=Europe/London
+    - UMASK_SET=022 #optional
+    - MYMPD_SSL=false
+  restart: always
+
+networks:
+  icecast-network:
+    external: true
+
+

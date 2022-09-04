@@ -1,0 +1,4 @@
+# ignore mympd config dirs
+/icecast-mpd/data/mpd/mympd/empty/
+/icecast-mpd/data/mpd2/mympd/empty/
+/icecast-mpd/data/mpd3/mympd/empty/

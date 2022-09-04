@@ -1,0 +1,17 @@
+version: "3"
+
+services:
+  mympd01:
+    <<: *env
+
+    container_name: mympd01
+    volumes:
+      #- /path/to/mpd/socket:/run/mpd/socket #optional, use if you connect to mpd using sockets
+      - ./data/mpd/mympd:/var/lib/mympd:rw
+      - /mnt/Crucial_120G/Musics/AnimeSong:/var/lib/mpd/music:ro
+      - ./data/mpd/playlists:/var/lib/mpd/playlists:rw
+      - ./data/mpd/data:/var/lib/mpd/data:rw
+      - ./data/mpd/config/mpd.conf:/etc/mpd.conf:rw
+
+
+
