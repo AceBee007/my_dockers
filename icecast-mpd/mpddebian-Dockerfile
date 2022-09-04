@@ -1,0 +1,50 @@
+# Build mympd
+FROM library/debian:10 as build
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+RUN apt-get update && apt-get install git -y
+RUN cd / && git clone https://github.com/jcorporation/myMPD.git
+ENV DESTDIR=/myMPD-dist
+RUN mkdir -p $DESTDIR
+WORKDIR /myMPD
+RUN ./build.sh installdeps \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+ENV MANPAGES=OFF
+RUN ./build.sh releaseinstall
+WORKDIR /
+RUN tar -czvf /mympd.tar.gz -C /myMPD-dist .
+
+# Setup mpd image
+FROM library/debian:10-slim
+ENV LANG=C.UTF-8
+ENV LC_ALL=C.UTF-8
+ENV MPD_HOST=127.0.0.1
+ENV MPD_PORT=6600
+# hadolint ignore=DL3008
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends openssl libid3tag0 libflac8 liblua5.3 libpcre2-8-0 mpd mpc ncmpcpp pulseaudio \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* ; \
+	mkdir /var/log/mpd/data/ ; \
+	chown -R mpd:audio /var/lib/mpd ; \
+	mkdir -p /run/mpd/ ; \
+	chown -R mpd:audio /run/mpd/ ; \
+	#chown mpd:audio /etc/mpd.conf ; \
+	cp /etc/mpd.conf /etc/mpd.conf.backup
+# hadolint ignore=DL3010
+COPY --from=build /mympd.tar.gz /
+WORKDIR /
+RUN tar -xzvf mympd.tar.gz -C /
+RUN rm mympd.tar.gz
+RUN groupadd -r mympd
+RUN useradd -r -g mympd -s /bin/false -d /var/lib/mympd mympd
+
+COPY mpddebian-entrypoint.sh /entrypoint.sh
+RUN chmod 744 /entrypoint.sh
+
+VOLUME ["/var/lib/mpd", "/var/lib/mympd"]
+
+EXPOSE 6600 8000 80
+
+CMD ["./entrypoint.sh"]
