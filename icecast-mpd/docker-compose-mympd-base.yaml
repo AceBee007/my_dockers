@@ -8,7 +8,13 @@ x-env: &env
     - TZ=Europe/London
     - UMASK_SET=022 #optional
     - MYMPD_SSL=false
-  restart: always
+      #restart: always
+  deploy:
+    restart_policy:
+      condition: on-failure
+      delay: 5s
+      max_attempts: 10
+      window: 120s
 
 networks:
   icecast-network:
