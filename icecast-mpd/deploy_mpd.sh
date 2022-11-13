@@ -1,7 +1,7 @@
 TARGET=${1}
 DRYRUN=${2}
 
-[[ -z ${TARGET} ]] && echo -e "Please specify the deploy target:\nAniSong: mympd01\nEngSong: mympd02\nclassic: mympd03" && exit 0;
+[[ -z ${TARGET} ]] && echo -e "Please specify the deploy target:\nAniSong:\n$ ./deploy_mpd.sh mympd01\nEngSong:\n$ ./deploy_mpd.sh mympd02\nclassic:\n$ ./deploy_mpd.sh mympd03" && exit 0;
 [[ ! -z ${DRYRUN} && ${DRYRUN} != "--dryrun" ]] && echo -e "The 2nd arg should be empty or --dryrun" && exit 0;
 [[ "${TARGET}" != "mympd01" && \
    "${TARGET}" != "mympd02" && \

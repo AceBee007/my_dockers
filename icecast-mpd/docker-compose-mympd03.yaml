@@ -12,4 +12,6 @@ services:
       - ./data/mpd3/playlists:/var/lib/mpd/playlists:rw
       - ./data/mpd3/data:/var/lib/mpd/data:rw
       - ./data/mpd3/config/mpd.conf:/etc/mpd.conf:rw
+      - ./mpddebian-entrypoint.sh:/entrypoint.sh:ro
+      - ./watch.sh:/watch.sh:ro
 
