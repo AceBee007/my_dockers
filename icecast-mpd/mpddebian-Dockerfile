@@ -42,6 +42,7 @@ RUN useradd -r -g mympd -s /bin/false -d /var/lib/mympd mympd
 
 COPY mpddebian-entrypoint.sh /entrypoint.sh
 RUN chmod 744 /entrypoint.sh
+RUN cron
 
 VOLUME ["/var/lib/mpd", "/var/lib/mympd"]
 

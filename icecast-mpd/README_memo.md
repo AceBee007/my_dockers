@@ -8,7 +8,7 @@ build it locally
 
 ## mpd image
 build it locally
-`docker build -f mpd-Dockerfile -t vimagick_arm/mpd:latest .`
+`docker build -f mpddebian-Dockerfile -t mylocal/debian-mpd:latest .`
 
 ## docker-compose
 notice that the /etc/icecast2 mountpoint must be 777 permission
@@ -18,9 +18,11 @@ otherwise, it will cause a (xml parse error), actually, it is a filesystem permi
 why do we need `sed "s|-\ \./|-\ $(pwd)/|g"` ?, if not, docker-compose will use `/dev/fd` as `.`(our current directory)
 ```bash
 # to check the config
-docker-compose -f <(cat docker-compose-mympd-base.yaml docker-compose-mympd.yaml | sed "s|-\ \./|-\ $(pwd)/|g") config
+$ docker-compose -f <(cat docker-compose-mympd-base.yaml docker-compose-mympd.yaml | sed "s|-\ \./|-\ $(pwd)/|g") config
 # up the service
-docker-compose -f <(cat docker-compose-mympd-base.yaml docker-compose-mympd.yaml | sed "s|-\ \./|-\ $(pwd)/|g") up -d
+$ docker-compose -f <(cat docker-compose-mympd-base.yaml docker-compose-mympd.yaml | sed "s|-\ \./|-\ $(pwd)/|g") up -d
+# docker-swarm mode (docker deploy)
+$ ./deploy_mpd.sh mympd01
 ```
 ### Attach into mympd container and execute mpc command
 ```bash

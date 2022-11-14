@@ -1,3 +1,5 @@
+#!/bin/bash
+
 MPD_PID=`ps -ax | grep /usr/bin/mpd | grep -v mympd | grep -v grep | awk '{ print $1 }'`
 if [[ -z ${MPD_PID}  ]]; then
     echo "mpd is not running, aborting..." && exit 1;

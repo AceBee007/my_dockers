@@ -1,7 +1,7 @@
 version: "3"
 
 x-env: &env
-  image: vimagick_armdeb/mpd:latest
+  image: mylocal/debian-mpd:latest
   networks:
     - icecast-network
   environment:
