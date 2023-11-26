@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # regist watsh.sh's cron job
-crontab -l | { cat; echo -e "* * * * * bash /watch.sh\n\n"; } | crontab -u root -
+crontab -l | { cat; echo -e "*/3 * * * * bash /watch.sh\n\n"; } | crontab -u root -
 
 # check the crontab
 crontab -l

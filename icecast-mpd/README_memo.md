@@ -31,8 +31,12 @@ root@b5f2c0c15b52:/# mpc
 volume: n/a   repeat: off   random: off   single: off   consume: off
 ```
 
-## add all music and play
+## clear current playlist and add all music and play
 ```
-mpc listall | mpc add && mpc play && mpc random on && mpc repeat on
+mpc clear && mpc listall | mpc add && mpc play && mpc random on && mpc repeat on
+```
 
+## Claer the current playlist
+```
+mpc clear
 ```

@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   icecast:
-    image: docker-icecast:latest
+    image: docker-icecast_icecast:latest
     container_name: docker-icecast
     hostname: docker-icecast
     build:
@@ -27,9 +27,8 @@ services:
         constraints:
           - "node.hostname==ubuntu-raspi4"
       restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
+        condition: any
+        delay: 15s
         window: 120s
       labels:
         - traefik.enable=true

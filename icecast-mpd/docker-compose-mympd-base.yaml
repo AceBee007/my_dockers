@@ -10,10 +10,12 @@ x-env: &env
     - MYMPD_SSL=false
       #restart: always
   deploy:
+    placement:
+      constraints:
+        - "node.hostname==ubuntu-raspi4"
     restart_policy:
-      condition: on-failure
-      delay: 5s
-      max_attempts: 10
+      condition: any
+      delay: 15s
       window: 120s
 
 networks:
