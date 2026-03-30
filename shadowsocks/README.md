@@ -9,7 +9,7 @@ Docker Compose で [shadowsocks-libev](https://github.com/shadowsocks/shadowsock
 ```bash
 # 1. 環境変数ファイルを作成し、パスワード等を設定
 cp .env.sample .env
-vi .env  # SS_PASSWORD を必ず変更すること
+vi .env  # PASSWORD を必ず変更すること
 
 # 2. 起動
 docker compose up -d
@@ -30,14 +30,14 @@ docker compose restart
 
 ## 環境変数
 
-| 変数 | 説明 | デフォルト |
-|------|------|-----------|
-| `PASSWORD` | サーバーパスワード (**必須**) | - |
-| `PORT` | ホスト側の公開ポート | `8388` |
-| `METHOD` | 暗号化方式 | `chacha20-ietf-poly1305` |
-| `TIMEOUT` | タイムアウト (秒) | `300` |
-| `DNS_ADDRS` | DNSサーバー | `8.8.8.8,8.8.4.4` |
-| `ARGS` | ss-server 追加引数 | - |
+| 変数        | 説明                          | デフォルト               |
+| ----------- | ----------------------------- | ------------------------ |
+| `PASSWORD`  | サーバーパスワード (**必須**) | -                        |
+| `PORT`      | ホスト側の公開ポート          | `8388`                   |
+| `METHOD`    | 暗号化方式                    | `chacha20-ietf-poly1305` |
+| `TIMEOUT`   | タイムアウト (秒)             | `300`                    |
+| `DNS_ADDRS` | DNSサーバー                   | `8.8.8.8,8.8.4.4`        |
+| `ARGS`      | ss-server 追加引数            | -                        |
 
 ## simple-obfs (難読化プラグイン)
 
@@ -59,7 +59,7 @@ ARGS=--plugin obfs-server --plugin-opts obfs=tls;fast-open
 ./gen_link.sh
 ```
 
-`.env` の `SERVER_LABEL` でリンクに表示名を付けられる。`SERVER` でサーバーIPを指定可能 (デフォルト: `0.0.0.0`)。
+サーバーの公開IPは `ipinfo.io` から自動取得される。`.env` の `SERVER_LABEL` でリンクに表示名を付けられる。
 
 ## ポートを変更する場合
 

@@ -3,8 +3,19 @@
 
 import base64
 import os
+import subprocess
 import sys
 import urllib.parse
+import urllib.request
+
+
+def get_public_ip(timeout: int = 5) -> str:
+    try:
+        with urllib.request.urlopen("https://ipinfo.io/ip", timeout=timeout) as resp:
+            return resp.read().decode().strip()
+    except Exception:
+        print("Warning: failed to get public IP (timeout or network error), using 0.0.0.0", file=sys.stderr)
+        return "0.0.0.0"
 
 
 def generate_ss_link(
@@ -34,8 +45,8 @@ def main() -> None:
         print("Error: PASSWORD is not set", file=sys.stderr)
         sys.exit(1)
 
-    server = os.environ.get("SERVER", "0.0.0.0")
-    port = int(os.environ.get("PORT", "8388"))
+    server = get_public_ip()
+    port = int(os.environ.get("DOCKER_PORT", "8388"))
     method = os.environ.get("METHOD", "chacha20-ietf-poly1305")
     name = os.environ.get("SERVER_LABEL", "")
 
@@ -68,6 +79,39 @@ def main() -> None:
 
     link = generate_ss_link(server, port, password, method, name, plugin, plugin_opts)
     print(link)
+
+    try:
+        ans = input("\nQRコードをターミナルに表示しますか？ [y/N]: ").strip().lower()
+    except (EOFError, KeyboardInterrupt):
+        ans = ""
+    if ans == "y":
+        print_qr(link)
+
+
+def ensure_qrcode() -> None:
+    try:
+        import qrcode  # noqa: F401
+    except ImportError:
+        print("Installing qrcode...", file=sys.stderr)
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "qrcode"], stdout=subprocess.DEVNULL)
+
+
+def print_qr(data: str) -> None:
+    ensure_qrcode()
+    import qrcode
+
+    qr = qrcode.QRCode(border=1)
+    qr.add_data(data)
+    qr.make()
+
+    BLACK = "\033[40m  \033[0m"
+    WHITE = "\033[47m  \033[0m"
+
+    matrix = qr.get_matrix()
+    print()
+    for row in matrix:
+        print("".join(BLACK if cell else WHITE for cell in row))
+    print()
 
 
 if __name__ == "__main__":
