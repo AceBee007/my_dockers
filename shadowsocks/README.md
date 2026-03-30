@@ -55,10 +55,8 @@ ARGS=--plugin obfs-server --plugin-opts obfs=tls;fast-open
 
 ## SS リンク生成
 
-`.env` を読み込んでリンクを生成:
-
 ```bash
-(set -a && source .env && set +a && python3 generate_ss_link.py)
+./gen_link.sh
 ```
 
 `.env` の `SERVER_LABEL` でリンクに表示名を付けられる。`SERVER` でサーバーIPを指定可能 (デフォルト: `0.0.0.0`)。
