@@ -1,19 +1,64 @@
-# README
+# Shadowsocks (shadowsocks-libev)
 
-This is a simple note for my-self to use a shadowsocks docker.
+Docker Compose で [shadowsocks-libev](https://github.com/shadowsocks/shadowsocks-libev) を起動するための構成。
 
-We will use docker-compose by default.
+公式イメージ: [shadowsocks/shadowsocks-libev](https://hub.docker.com/r/shadowsocks/shadowsocks-libev)
 
-## Usage
+## Quick Start
 
-Please follow the instructions at the first time running.
-1. change the 'password' in `config.json`
-1. change the default port in `docker-compose.yaml` (if needed).
-    - '8388:8388/tcp' -> (HostPort:ContainerPort/protocol) -> '18500(new host port to serve ss):8388/tcp'
-1. Make sure your slack-ip-checker have the correct setting.
-1. `docker-compose -f docker-compose.yaml up`
-    - It will start pulling the latest version of teddysun's shadowsocks-libev docker container.
-    - By default, this container will try to copy `/etc/shadowsocks-libev/config.json`, buy we will use docker-compose to mount `./config.json`.
-1. if all the thing goes right, you can restart it at background.
+```bash
+# 1. 環境変数ファイルを作成し、パスワード等を設定
+cp .env.sample .env
+vi .env  # SS_PASSWORD を必ず変更すること
 
+# 2. 起動
+docker compose up -d
 
+# 3. ログ確認
+docker compose logs -f
+```
+
+## 停止 / 再起動
+
+```bash
+# 停止
+docker compose down
+
+# 再起動
+docker compose restart
+```
+
+## 環境変数
+
+| 変数 | 説明 | デフォルト |
+|------|------|-----------|
+| `PASSWORD` | サーバーパスワード (**必須**) | - |
+| `PORT` | ホスト側の公開ポート | `8388` |
+| `METHOD` | 暗号化方式 | `chacha20-ietf-poly1305` |
+| `TIMEOUT` | タイムアウト (秒) | `300` |
+| `DNS_ADDRS` | DNSサーバー | `8.8.8.8,8.8.4.4` |
+| `ARGS` | ss-server 追加引数 | - |
+
+## simple-obfs (難読化プラグイン)
+
+`.env` の `ARGS` で設定:
+
+```bash
+# HTTP 難読化
+ARGS=--plugin obfs-server --plugin-opts obfs=http;fast-open
+
+# TLS 難読化
+ARGS=--plugin obfs-server --plugin-opts obfs=tls;fast-open
+```
+
+クライアント側は `obfs-local` + 同じ `obfs` モードを指定すること。
+
+## ポートを変更する場合
+
+`.env` の `PORT` を変更するだけでOK:
+
+```bash
+PORT=18500
+```
+
+ファイアウォール側でも該当ポートを開放すること。
