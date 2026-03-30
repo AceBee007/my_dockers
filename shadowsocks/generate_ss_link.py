@@ -46,7 +46,7 @@ def main() -> None:
         sys.exit(1)
 
     server = get_public_ip()
-    port = int(os.environ.get("DOCKER_PORT", "8388"))
+    port = int(os.environ.get("HOST_PORT", "8388"))
     method = os.environ.get("METHOD", "chacha20-ietf-poly1305")
     name = os.environ.get("SERVER_LABEL", "")
 
