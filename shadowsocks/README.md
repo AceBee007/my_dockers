@@ -9,7 +9,7 @@ Docker Compose で [shadowsocks-libev](https://github.com/shadowsocks/shadowsock
 ```bash
 # 1. 環境変数ファイルを作成し、パスワード等を設定
 cp .env.sample .env
-vi .env  # PASSWORD を必ず変更すること
+vim .env  # PASSWORD を必ず変更すること
 
 # 2. 起動
 docker compose up -d
@@ -42,20 +42,6 @@ docker compose restart
 | `SERVER_LABEL` | SS リンクの表示名 (任意)      | -                    |
 | `ARGS`         | ss-server 追加引数            | -                    |
 
-## simple-obfs (難読化プラグイン)
-
-`.env` の `ARGS` で設定:
-
-```bash
-# HTTP 難読化
-ARGS=--plugin obfs-server --plugin-opts obfs=http;fast-open
-
-# TLS 難読化
-ARGS=--plugin obfs-server --plugin-opts obfs=tls;fast-open
-```
-
-クライアント側は `obfs-local` + 同じ `obfs` モードを指定すること。
-
 ## SS リンク生成
 
 ```bash
@@ -66,10 +52,11 @@ ARGS=--plugin obfs-server --plugin-opts obfs=tls;fast-open
 
 ## ポートを変更する場合
 
-`.env` の `PORT` を変更するだけでOK:
+`.env` の `SERVER_PORT` と `HOST_PORT` を変更する:
 
 ```bash
-PORT=18500
+SERVER_PORT="18500"
+HOST_PORT="18500"
 ```
 
 ファイアウォール側でも該当ポートを開放すること。
